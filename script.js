@@ -47,18 +47,15 @@ if (contactForm && formStatus) {
         throw new Error('The email service returned an invalid response');
       }
 
-      if (!response.ok || (result.success !== true && result.success !== 'true')) {
+     
+if (!response.ok || result.ok !== true) {
         throw new Error(result.message || 'Message could not be sent');
       }
 
       contactForm.reset();
       formStatus.textContent = 'Thanks! Your message has been sent successfully.';
     } catch (error) {
-      if (error.message.toLowerCase().includes('activate')) {
-        formStatus.textContent = 'Please activate the email service using the confirmation email first.';
-      } else {
-        formStatus.textContent = 'The message could not be sent. Please check your connection and try again.';
-      }
+      formStatus.textContent = error.message || 'The message could not be sent. Please check your connection and try again.';
     } finally {
       submitButton.disabled = false;
     }
