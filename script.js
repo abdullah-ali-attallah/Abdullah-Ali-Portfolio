@@ -38,24 +38,10 @@ if (contactForm && formStatus) {
         body: new FormData(contactForm),
         headers: { Accept: 'application/json' },
       });
-      const responseText = await response.text();
-      let result;
       
-
-      if (responseText) {
-        try {
-          result = JSON.parse(responseText);
-        } catch (parseError) {
-          if (!response.ok) {
-            throw new Error('Message could not be sent');
-          }
-        }
-      }
-
-     
-if (!response.ok || result.ok === false) {
-        throw new Error(result.message || 'Message could not be sent');
-      }
+      if (!response.ok) {
+  throw new Error('Message could not be sent');
+}
 
       contactForm.reset();
       formStatus.textContent = 'Thanks! Your message has been sent successfully.';
