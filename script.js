@@ -40,15 +40,20 @@ if (contactForm && formStatus) {
       });
       const responseText = await response.text();
       let result;
+      
 
-      try {
-        result = JSON.parse(responseText);
-      } catch (parseError) {
-        throw new Error('The email service returned an invalid response');
+      if (responseText) {
+        try {
+          result = JSON.parse(responseText);
+        } catch (parseError) {
+          if (!response.ok) {
+            throw new Error('Message could not be sent');
+          }
+        }
       }
 
      
-if (!response.ok || result.ok !== true) {
+if (!response.ok || result.ok === false) {
         throw new Error(result.message || 'Message could not be sent');
       }
 
